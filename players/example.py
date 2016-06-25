@@ -1,4 +1,4 @@
-def bets(bets,wealth,round):
+def bet(bets,wealth,round):
     # We can get the bets dummy has placed on true and false by querying the bets table
     dummy_true, dummy_false = bets['dummy']
 
