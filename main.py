@@ -1,20 +1,15 @@
 
+import os
 import os.path
 from shutil import copyfile
 
 round = 0
 value = 0.5
 
+PLAYERS = ('dummy','example')
+
 if os.path.isfile("wealth"):
     copyfile("wealth", "wealth.bak")
-
-PLAYERS = []
-if os.path.isfile("players"):
-    handle = open("players","rb")
-    PLAYERS = eval(handle.read())
-    handle.close()
-# PLAYERS = ('jack', 'james', 'scott', 'dan', 'dummy', 'mladen', 'jordan', 'norman', 'daniel', 'abram', 'patrick')
-PLAYERS = ('dummy')
 
 WEALTH = {}
 if os.path.isfile("wealth"):
