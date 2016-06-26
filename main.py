@@ -1,9 +1,5 @@
 
-def run(state, bfs, bf_overrides = dict(), max_iterations = 10000):
-	from market import solve
-	return solve(bfs, dict((name, state.wealth.get(name, state.DEFAULT_WEALTH)) for name in playerNames), state.rounds, max_iterations)
-
-def main(state, outcome):
+def loadBettingFunctions():
 	import os
 
 	playerNames = tuple(filename[:-3] for filename in os.listdir('./players') if filename[-3:] == '.py' and filename not in ('__init__.py', 'example.py'))
@@ -12,10 +8,14 @@ def main(state, outcome):
 	def bfForPlayerName(name):
 		return getattr(__import__('players.%s' % name), name).bet
 
-	bfs = dict((name, bfForPlayerName(name)) for name in playerNames)
+	return dict((name, bfForPlayerName(name)) for name in playerNames)
 
-	bets, converged = run(state, bfs)
+def run(state, bfs, max_iterations = 10000):
+	from market import solve
+	return solve(bfs, dict((name, state.wealth.get(name, state.DEFAULT_WEALTH)) for name in bfs), state.rounds, max_iterations)
 
+def main(state, outcome):
+	bets, converged = run(state, loadBettingFunctions())
 	return bets, converged, state.advance(bets, outcome)
 
 if __name__ == "__main__":

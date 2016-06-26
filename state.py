@@ -4,8 +4,8 @@ class State(object):
 	DEFAULT_WEALTH = 100.0
 
 	def __init__(self, wealths, bets, outcomes, rounds):
-		self.previousWealth = dict(wealths.items())
-		self.previousBets = dict(bets.items())
+		self.previousWealth = tuple(dict(wealth.items()) for wealth in wealths)
+		self.previousBets = tuple(dict(bet.items()) for bet in bets)
 		self.previousOutcomes = tuple(outcomes)
 		self.rounds = rounds
 		assert len(wealths) > 0
