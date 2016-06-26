@@ -11,21 +11,27 @@ def bet(bets,wealth,round):
     #else:
     #    return 0.0, 0.0
 
-    total_true, total_false = bets['total']
+    if round == 0:
+            
+        total_true, total_false = bets['total']
 
-    p = total_true/(total_true+total_false)
-    my_wealth = wealth['norman']
+        p = total_true/(total_true+total_false)
+        my_wealth = wealth['norman']
+        my_guess = .86
+        my_wager = my_wealth
+
+        return my_wager*my_guess, my_wager*(1 - my_guess)
+        
+##if p > .9:
+##        return my_wealth/1.1, 0.0
+##
+##if p > 0.70:
+##        return my_wealth/2, 0.0
+##
+##if p > 0.65:
+##        return 0.0, my_wealth/2
+##
+##return 0.0, my_wealth/11.
 
     
-    if p > 0.75:
-            return my_wealth, 0.0
-
-    if p > 0.70:
-            return my_wealth/2, 0.0
-
-    if p > 0.65:
-            return 0.0, my_wealth/2
-
-    else:
-        return 0.0, 0.0
     
