@@ -19,7 +19,18 @@ if __name__ == "__main__":
 	from state import State
 	state = State.load()
 
-	bets, converged, newState = main(state, 0.6)
+	DEFAULT_OUTCOME = 0.5
+
+	from sys import argv
+	if len(argv) > 1:
+		try:
+			OUTCOME = float(argv[1])
+		except:
+			OUTCOME = DEFAULT_OUTCOME
+	else:
+		OUTCOME = DEFAULT_OUTCOME
+
+	bets, converged, newState = main(state, OUTCOME)
 
 	formatBT = lambda bt: '\n'.join('%s: %0.1f, %0.1f' % thing for thing in sorted((k, t, f) for k, (t, f) in bt.items()))
 	formatWealth = lambda wealth: '\n'.join('%s: %0.1f' % thing for thing in sorted(wealth.items()))

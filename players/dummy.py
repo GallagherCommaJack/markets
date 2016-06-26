@@ -1,2 +1,3 @@
 def bet(bets, wealth, round):
-	return 10.0, 10.0
+	myWealth = wealth['dummy']
+	return myWealth / 4.0, myWealth / 4.0
