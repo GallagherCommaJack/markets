@@ -3,14 +3,17 @@ class State(object):
 
 	DEFAULT_WEALTH = 100.0
 
-	def __init__(self, wealths, bets, rounds):
+	def __init__(self, wealths, bets, outcomes, rounds):
 		self.previousWealth = wealths
 		self.previousBets = bets
+		self.previousOutcomes = outcomes
 		self.rounds = rounds
 		assert len(wealths) > 0
 		assert len(bets) > 0
+		assert len(outcomes) > 0
 		self.wealth = wealths[-1]
 		self.bets = bets[-1]
+		self.outcome = bets[-1]
 
 
 	def save(self, path='state.pickle'):
@@ -31,12 +34,12 @@ class State(object):
 
 
 	@classmethod
-	def resolveMarket(cls, bets, truthiness):
+	def resolveMarket(cls, bets, outcome):
 		assert 'total' in bets
 		assert bets['total'][0] > 0.0 and bets['total'][1] > 0.0
-		assert 0. <= truthiness <= 1.
+		assert 0. <= outcome <= 1.
 		marketProbability = bets['total'][0] / (bets['total'][0] + bets['total'][1])
-		truth = (truthiness, 1. - truthiness)
+		truth = (outcome, 1. - outcome)
 		scale = (1. / marketProbability, 1. / (1. - marketProbability))
 		
 		# Note: assumes that all the players of interest placed bets.
@@ -46,11 +49,12 @@ class State(object):
 		)
 	
 	@classmethod
-	def fromPrevious(cls, state, bets, truthiness):
-		winnings = cls.resolveMarket(bets, truthiness)
+	def fromPrevious(cls, state, bets, outcome):
+		winnings = cls.resolveMarket(bets, outcome)
 		return cls(
 			state.previousWealth + [dict((name, winnings[name] + state.wealth.get(name, cls.DEFAULT_WEALTH)) for name in winnings)],
 			state.previousBets + [bets],
+			state.previousOutcomes + [outcome],
 			state.rounds + 1
 		)
 
@@ -59,7 +63,7 @@ class State(object):
 
 	@classmethod
 	def fromInitial(cls):
-		return cls([{'dummy': 100.0}], [{'total': (10.0, 10.0), 'dummy': (10.0, 10.0)}], 0)
+		return cls([{'dummy': 100.0}], [{'total': (10.0, 10.0), 'dummy': (10.0, 10.0)}], [0.5], 0)
 
 
 if __name__ == "__main__":
