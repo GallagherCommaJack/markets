@@ -10,7 +10,6 @@ def bet(bets,wealth,round):
 
     wr = mw - (me_true + me_false)
 
-    frac = 0.5
     brazil_true = 0.82
     brazil_false = 1.0 - brazil_true
     odds_true = 1.0 / p_true
