@@ -4,9 +4,9 @@ class State(object):
 	DEFAULT_WEALTH = 100.0
 
 	def __init__(self, wealths, bets, outcomes, rounds):
-		self.previousWealth = wealths
-		self.previousBets = bets
-		self.previousOutcomes = outcomes
+		self.previousWealth = dict(wealths.items())
+		self.previousBets = dict(bets.items())
+		self.previousOutcomes = tuple(outcomes)
 		self.rounds = rounds
 		assert len(wealths) > 0
 		assert len(bets) > 0
@@ -63,7 +63,7 @@ class State(object):
 
 	@classmethod
 	def fromInitial(cls):
-		return cls([{'dummy': 100.0}], [{'total': (10.0, 10.0), 'dummy': (10.0, 10.0)}], [0.5], 0)
+		return cls([{'dummy': 100.0}], [{'total': (10.0, 10.0), 'dummy': (10.0, 10.0)}], [0.5], 1)
 
 
 if __name__ == "__main__":
