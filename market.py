@@ -192,20 +192,6 @@ def resolve_bidding_functions(bfs, max_iterations):
 
   return bt_next, converged
 
-
-def update_wealth(bt_final, wealth, v):
-  p = compute_prob(bt_final['total'])
-  wealth_new = dict()
-
-  for k in bt_final:
-    if k != 'total':
-      k_true, k_false = bt_final[k]
-      wealth_new[k] = wealth[k] - k_true - k_false
-      wealth_new[k] += v * k_true / p
-      wealth_new[k] += (1 - v) * k_false / p
-
-  return wealth_new
-
 def mk_gamblers(bfs, wealth, prec, round):
   def gambler_from_name(name):
     bf = bfs[name]
