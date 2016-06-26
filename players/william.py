@@ -8,7 +8,7 @@ def bet(bets,wealth,round):
 
     if round == 0:
         bet_size = my_wealth
-        epsilon = 0.05
+        epsilon = 0.01
         if p > 0.7 + epsilon:
             return bet_size, 0.0
         if p < 0.7 - epsilon:
