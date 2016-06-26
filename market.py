@@ -197,7 +197,7 @@ def mk_gamblers(bfs, wealth, prec, round):
     bf = bfs[name]
     return piecewise_linearify_bidding_function(
         cap_bidding_function(
-          catch_bidding_function_errors(lambda bets: bf(bets, wealth, round)),
+          catch_bidding_function_errors(lambda bets: bf(dict(bets.items()), dict(wealth.items()), round)),
           wealth[name]),
         prec)
   return dict((name, gambler_from_name(name)) for name in bfs)
