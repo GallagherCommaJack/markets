@@ -10,6 +10,6 @@ def bet(bets,wealth,round):
     mytotalprob = true_prediction / (true_prediction + false_prediction)
 
     if market_prob < mytotalprob:
-        return 10, 0
+        return 10., 0.
     else:
-        return 0, 10
+        return 0., 10.
