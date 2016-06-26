@@ -6,7 +6,7 @@ from shutil import copyfile
 round = 0
 value = 0.5
 
-PLAYERS = tuple(filename[:-3] for filename in os.listdir('./players') if filename[-3:] == '.py' and filename != '__init__.py')
+PLAYERS = tuple(filename[:-3] for filename in os.listdir('./players') if filename[-3:] == '.py' and filename not in ('__init__.py', 'example.py'))
 assert 'dummy' in PLAYERS # We always want a dummy player - this is assumed in market.py code.
 
 if os.path.isfile("wealth"):
