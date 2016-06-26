@@ -33,20 +33,27 @@
       <div class="row">
         <div class="col-md-8 col-md-offset-2 col-sm-12">
           <dl>
+            
+            {% if state.rounds %}
+
             <dt>Current Wealth</dt>
             <dd>
-              {% for name in ('james', 'jack', 'val') %}
-                <div class="row">
-                  <div class="col-md-2 col-sm-4 col-xs-4">
-                    {{ name }}
-                  </div>
-                  <div class="col-md-5 col-sm-7 col-xs-7">
-                    100.00
-                  </div>
+              <div class="row" style="padding-bottom: 15px;">
+                <div class="col-md-7 col-md-offset-2 col-sm-11 col-xs-11">
+                  {% for name, wealth in state.wealth.items() | orderWealth %}
+                    <div class="row">
+                      <div class="col-md-2 col-sm-4 col-xs-4">
+                        {{ name }}
+                      </div>
+                      <div class="col-md-4 col-sm-6 col-xs-6">
+                        T: {{ '%.2f' % wealth }}
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
-              {% endfor %}
+              </div>
             </dd>
-            
+
             <dt>Latest Bets (Last Round)</dt>
             <dd>
               <div class="row" style="padding-bottom: 5px;">
@@ -55,17 +62,27 @@
                 </div>
               </div>
 
-              {% for name in ('james', 'jack', 'val') %}
-                <div class="row">
-                  <div class="col-md-2 col-sm-4 col-xs-4">
-                    {{ name }}
-                  </div>
-                  <div class="col-md-5 col-sm-7 col-xs-7">
-                    100.00
-                  </div>
+              <div class="row" style="padding-bottom: 15px;">
+                <div class="col-md-7 col-md-offset-2 col-sm-11 col-xs-11">
+                  <h3> Round {{ state.rounds - 1 }}: Outcome = {{ state.previousOutcomes[-1] }} </h3>
+                  {% for name, (bet_true, bet_false) in state.previousBets[-1].items() | orderBets %}
+                    <div class="row">
+                      <div class="col-md-2 col-sm-4 col-xs-4">
+                        {{ name }}
+                      </div>
+                      <div class="col-md-2 col-sm-3 col-xs-3">
+                        T: {{ '%.2f' % bet_true }}
+                      </div>
+                      <div class="col-md-2 col-sm-3 col-xs-3">
+                        F: {{ '%.2f' % bet_false }}
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
-              {% endfor %}
+              </div>
             </dd>
+
+            {% endif %}
 
             <dt>Upload Your Bot</dt>
             <dd>

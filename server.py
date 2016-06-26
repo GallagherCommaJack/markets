@@ -7,9 +7,14 @@ app = Flask(__name__)
 def order_bets(bets):
     return sorted(bets, key = lambda (name, (t,f)): (t + f, name != 'total'))[::-1]
 
+@app.template_filter('orderWealth')
+def order_wealth(wealths):
+    return sorted(wealths, key = lambda (name, wealth): wealth)[::-1]
+
 @app.route("/")
 def index():
-    return render_template('index.html')
+	from state import State
+	return render_template('index.html', state=State.load())
 
 @app.route("/history")
 def history():

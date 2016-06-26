@@ -115,9 +115,14 @@ def cap_bidding_function(bf, wealth): # wealth here means wealth of the current 
 
 # Catches errors thrown by a bidding function, and defaults to betting nothing.
 def catch_bidding_function_errors(bf, identifier):
+  from time import time
   def bf2(bt):
     try:
+      start_time = time()
       result = bf(bt)
+      total_time = time() - start_time
+      if total_time > 1e-3:
+        print 'Warning: %s ran for %.3f seconds.' % (identifier, total_time)
       if result is not None and isinstance(result, tuple) and len(result) == 2:
         return tuple(float(x) for x in result)
       else:
@@ -178,13 +183,17 @@ def resolve_bidding_functions(bfs, max_iterations):
   probable_convergence_steps = 0
   converged = False
 
-  for i in range(max_iterations):
+  for i in xrange(max_iterations):
+
+    if i > 10 and i % 100 == 0:
+      print "Resolve bidding functions still hasn't converged. Iteration %d / %d" % (i, max_iterations)
+
     weight_scale_factor = (i * 1. / max_iterations) ** 2
     weight = 0.8 * (1. - weight_scale_factor) + 0.99 * weight_scale_factor
 
     bt_next = apply_bidding_functions(bfs, vec_to_bet_table(sorted_keys, bt_current_vec))
     add_extra_bt_info(bt_next)
-    bt_current_vec = vec_add(vec_scale(weight, bt_current_vec), vec_scale(1. - weight, bet_table_to_vec(bt_next)))
+    bt_current_vec = [x * weight + y * (1. - weight) for x,y in zip(bt_current_vec, bet_table_to_vec(bt_next))]
 
     if all(abs(x - y) < 1e-2 for x, y in zip(probable_convergence_vec, bt_current_vec)):
       probable_convergence_steps += 1
