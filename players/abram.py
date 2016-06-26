@@ -14,10 +14,13 @@ def bet(bets,wealth,round):
     del wealth['abram']
 
     house = total_true / (total_true + total_false)
+    not_house = total_false / (total_true + total_false)
     p = 0.85
-    b = my_wealth
     q = 1-p
-    pos_bet = (b*p-q)/b
-    neg_bet = (b*q-p)/b
+    b_true = (1/house) - 1
+    b_false = (1/not_house) - 1
+    b_false = ()
+    pos_bet = p - q/b_true
+    neg_bet = q - p/b_false
 
     return pos_bet, neg_bet
