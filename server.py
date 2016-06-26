@@ -5,11 +5,11 @@ app = Flask(__name__)
 
 @app.template_filter('orderBets')
 def order_bets(bets):
-    return sorted(bets, key = lambda (name, (t,f)): (t + f, name != 'total'))[::-1]
+	return sorted(bets, key = lambda (name, (t,f)): (t + f, name != 'total'))[::-1]
 
 @app.template_filter('orderWealth')
 def order_wealth(wealths):
-    return sorted(wealths, key = lambda (name, wealth): wealth)[::-1]
+	return sorted(wealths, key = lambda (name, wealth): wealth)[::-1]
 
 @app.route("/")
 def index():
@@ -44,12 +44,12 @@ def test():
 			return bf2
 
 		try:
-			with open('temp_test.py', 'w') as f:
+			from random import randint
+			filename = 'temp_test_%d.py' % randint(0,1000000)
+			with open(filename, 'w') as f:
 				f.write(code)
 				f.close()
-			from temp_test import bet
-
-			bfs[name] = bet
+			bfs[name] = __import__(filename[:-3]).bet
 
 			from state import State
 			state = State.load()
@@ -66,5 +66,5 @@ def test():
 			return render_template('test.html', error=repr(ex))
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+	app.run(host='0.0.0.0', port=8080, debug=True)
 
