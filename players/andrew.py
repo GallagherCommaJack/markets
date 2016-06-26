@@ -1,4 +1,7 @@
-import numpy as np
+# import numpy as np
+
+def mean(l):
+    return sum(l)/len(l)
 
 def bet(bets, wealth, round):
 
@@ -15,13 +18,13 @@ def bet(bets, wealth, round):
 
     good_bets = peoples_true_bets + best_bets
 
-    print "`good_bets`:"
-    print good_bets
+    #print "`good_bets`:"
+    #print good_bets
 
     if len(good_bets) > 0:
         true_bet = min(
                 wealth['andrew'] * .9,
-                np.mean(good_bets)
+                mean(good_bets)
                 )
     else:
         true_bet = 0.0

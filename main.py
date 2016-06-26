@@ -42,6 +42,7 @@ if __name__ == "__main__":
 	print formatBT(bets)
 	print
 	print
+	print 'Market probability:', bets['total'][0] / sum(bets['total'])
 
 	if outcome_exists:
 

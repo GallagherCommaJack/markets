@@ -26,9 +26,6 @@ def bet(bets,wealth,round):
     if p > 0.65:
             return 0.0, my_wealth/2
 
-    return 0.0, my_wealth
-
-    
     else:
         return 0.0, 0.0
     
