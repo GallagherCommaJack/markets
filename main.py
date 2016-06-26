@@ -1,7 +1,7 @@
 
-def run(state, bfs):
+def run(state, bfs, bf_overrides = dict(), max_iterations = 10000):
 	from market import solve
-	bets, converged = solve(bfs, dict((name, state.wealth.get(name, state.DEFAULT_WEALTH)) for name in playerNames), state.rounds, 1000)
+	return solve(bfs, dict((name, state.wealth.get(name, state.DEFAULT_WEALTH)) for name in playerNames), state.rounds, max_iterations)
 
 def main(state, outcome):
 	import os
