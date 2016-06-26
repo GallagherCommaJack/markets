@@ -16,9 +16,6 @@ def bet(bets, wealth, round):
 
     good_true_bets = peoples_true_bets + best_true_bets
 
-    print "`good_true_bets`:"
-    print good_true_bets
-
     if len(good_true_bets) > 0:
         true_bet = min(
                 wealth['andrew'] * .9,
