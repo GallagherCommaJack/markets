@@ -19,7 +19,7 @@ def bet(bets,wealth,round):
     q = 1-p
     b_true = (1/house) - 1
     b_false = (1/not_house) - 1
-    pos_bet = p - q/b_true
-    neg_bet = q - p/b_false
+    pos_bet = (p - q/b_true)*my_wealth
+    neg_bet = (q - p/b_false)*my_wealth
 
     return pos_bet, neg_bet
