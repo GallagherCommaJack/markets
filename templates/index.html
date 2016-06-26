@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>MSFP Markets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="//bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <style>
+    dd {
+      padding-bottom: 18px;
+    }
+    dt {
+      padding-bottom: 3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <h2> MSFP Markets </h2>
+        </div>
+      </div>
+      <div class="row" style="padding-bottom: 30px;">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <small>Source code (including <a href="https://github.com/GallagherCommaJack/markets/tree/master/players">everyone's bots from last round</a>) is <a href="https://github.com/GallagherCommaJack/markets">on Github</a>.</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <dl>
+            <dt>Current Wealth</dt>
+            <dd>
+              {% for name in ('james', 'jack', 'val') %}
+                <div class="row">
+                  <div class="col-md-2 col-sm-4 col-xs-4">
+                    {{ name }}
+                  </div>
+                  <div class="col-md-5 col-sm-7 col-xs-7">
+                    100.00
+                  </div>
+                </div>
+              {% endfor %}
+            </dd>
+            
+            <dt>Latest Bets (Last Round)</dt>
+            <dd>
+              <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-7 col-sm-11 col-xs-11">
+                  <small>See <a href="/bets">here</a> for all previous bets.</small>
+                </div>
+              </div>
+
+              {% for name in ('james', 'jack', 'val') %}
+                <div class="row">
+                  <div class="col-md-2 col-sm-4 col-xs-4">
+                    {{ name }}
+                  </div>
+                  <div class="col-md-5 col-sm-7 col-xs-7">
+                    100.00
+                  </div>
+                </div>
+              {% endfor %}
+            </dd>
+
+            <dt>Upload Your Bot</dt>
+            <dd>
+              <div class="row" style="padding-bottom: 3px;">
+                <div class="col-md-2 col-sm-11 col-xs-11">
+                  <a href="/submit">Submit Bot!</a>
+                </div>
+                <div class="col-md-5 col-sm-11 col-xs-11">
+                  <small>Submit your bot for the next round.</small>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2 col-sm-11 col-xs-11">
+                  <a href="/test">Test Bot</a>
+                </div>
+                <div class="col-md-5 col-sm-11 col-xs-11">
+                  <small>Practice against last round's bots.</small>
+                </div>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+
