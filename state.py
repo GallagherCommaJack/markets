@@ -39,7 +39,7 @@ class State(object):
 		
 		# Note: assumes that all the players of interest placed bets.
 		return dict(
-			(name, sum(truth[i] * scale[i] * amt for i, amt in enumerate(amounts)))
+			(name, sum(truth[i] * scale[i] * amt for i, amt in enumerate(amounts)) - sum(amounts))
 			for name, amounts in bets.items() if name != 'total'
 		)
 	
