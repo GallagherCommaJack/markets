@@ -4,6 +4,9 @@ current_rnd = 0
 cap_factor = 0.6
 
 def bet(bets, wealth, rnd):
+
+    return 0.0, 0.0
+
     total_true, total_false = bets['total']
     prob = total_true / (total_true + total_false)
     
