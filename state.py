@@ -28,7 +28,7 @@ class State(object):
 			with open(path, 'rb') as f:
 				return load(f)
 		except Exception as ex:
-			print "Error occurred loading state:", ex
+			print "Couldn't load pre-existing state:", ex
 			print "Proceeding to create initial state instead."
 			return cls.fromInitial()
 
@@ -52,18 +52,18 @@ class State(object):
 	def fromPrevious(cls, state, bets, outcome):
 		winnings = cls.resolveMarket(bets, outcome)
 		return cls(
-			state.previousWealth + [dict((name, winnings[name] + state.wealth.get(name, cls.DEFAULT_WEALTH)) for name in winnings)],
-			state.previousBets + [bets],
-			state.previousOutcomes + [outcome],
+			state.previousWealth + (dict((name, winnings[name] + state.wealth.get(name, cls.DEFAULT_WEALTH)) for name in winnings),),
+			state.previousBets + (bets,),
+			state.previousOutcomes + (outcome,),
 			state.rounds + 1
 		)
 
-	def advance(self, bets, truth):
-		return self.fromPrevious(self, bets, truth)
+	def advance(self, bets, outcome):
+		return self.fromPrevious(self, bets, outcome)
 
 	@classmethod
 	def fromInitial(cls):
-		return cls([{'dummy': 100.0}], [{'total': (10.0, 10.0), 'dummy': (10.0, 10.0)}], [0.5], 1)
+		return cls(({'dummy': 100.0},), ({'total': (10.0, 10.0), 'dummy': (10.0, 10.0)},), (0.5,), 1)
 
 
 if __name__ == "__main__":
