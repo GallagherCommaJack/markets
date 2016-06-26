@@ -65,6 +65,30 @@ def test():
 			print repr(ex)
 			return render_template('test.html', error=repr(ex))
 
+@app.route("/submit", methods=['GET', 'POST'])
+def submit():
+	if request.method == 'GET':
+		return render_template('submit.html')
+
+	else:
+		name = request.form['name']
+		code = request.form['code']
+
+		import os
+		import os.path
+		if not os.path.exists('new_players'):
+			try:
+				os.makedirs('new_players')
+			except OSError as exc: # Guard against race condition
+				if exc.errno != errno.EEXIST:
+					raise
+
+		with open('new_players/%s.py' % name.lower(), 'w') as f:
+			f.write(code)
+			f.close()
+		return render_template('submit.html', submitted=True)
+
+
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=8080, debug=True)
 

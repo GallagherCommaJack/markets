@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Test Run - MSFP Markets</title>
+  <title>Submit - MSFP Markets</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="//bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <style>
@@ -23,14 +23,14 @@
 
       <div class="row">
         <div class="col-md-8 col-md-offset-2 col-sm-12">
-          <h2> Test Run - MSFP Markets </h2>
+          <h2> Submit - MSFP Markets </h2>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-8 col-md-offset-2 col-sm-12">
-          <p> Submit source code, and we'll pit you against the bots from last round. </p>
-          <p> Use this to check your code for errors. </p>
+          <p> Submit source code for your bot. This will compete in the next round. </p>
+          <p> <small>Submitting again will overwrite your bot. (Please don't submit under someone else's name.) You can check if your code runs <a href="/test">here</a>.</small> </p>
           <form method="POST" action="">
             <div>
               <label for="name">Name</label>
@@ -47,24 +47,11 @@
         </div>
       </div>
 
-      {% if run %}
+      {% if submitted %}
 
-        <div class="row" style="padding-bottom: 15px;">
+        <div class="row" style="padding-bottom: 15px; padding-top: 10px;">
           <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-            <h3> Bets <br> <small> Converged = {{ 'Yes' if converged else 'NO' }} </small></h3>
-            {% for name, (bet_true, bet_false) in  bets.items() | orderBets %}
-              <div class="row">
-                <div class="col-md-2 col-sm-4 col-xs-4">
-                  {{ name }}
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-3">
-                  <span style="color: darkgreen;">T: {{ '%.2f' % bet_true }}</span>
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-3">
-                  <span style="color: darkred;">F: {{ '%.2f' % bet_false }}</span>
-                </div>
-              </div>
-            {% endfor %}
+            <p style="color: darkgreen;"> Submitted successfully! </p>
           </div>
         </div>
 
