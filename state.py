@@ -4,16 +4,11 @@ class State(object):
 	DEFAULT_WEALTH = 100.0
 
 	def __init__(self, wealths, bets, outcomes, rounds):
-		self.previousWealth = wealths
-		self.previousBets = bets
-		self.previousOutcomes = outcomes
+		self.previousWealth = tuple(dict(wealth.items()) for wealth in wealths)
+		self.previousBets = tuple(dict(bet.items()) for bet in bets)
+		self.previousOutcomes = tuple(outcomes)
 		self.rounds = rounds
-		assert len(wealths) > 0
-		assert len(bets) > 0
-		assert len(outcomes) > 0
-		self.wealth = wealths[-1]
-		self.bets = bets[-1]
-		self.outcome = bets[-1]
+		self.wealth = wealths[-1] if wealths else dict()
 
 
 	def save(self, path='state.pickle'):
@@ -28,7 +23,7 @@ class State(object):
 			with open(path, 'rb') as f:
 				return load(f)
 		except Exception as ex:
-			print "Error occurred loading state:", ex
+			print "Couldn't load pre-existing state:", ex
 			print "Proceeding to create initial state instead."
 			return cls.fromInitial()
 
@@ -52,18 +47,18 @@ class State(object):
 	def fromPrevious(cls, state, bets, outcome):
 		winnings = cls.resolveMarket(bets, outcome)
 		return cls(
-			state.previousWealth + [dict((name, winnings[name] + state.wealth.get(name, cls.DEFAULT_WEALTH)) for name in winnings)],
-			state.previousBets + [bets],
-			state.previousOutcomes + [outcome],
+			state.previousWealth + (dict((name, winnings[name] + state.wealth.get(name, cls.DEFAULT_WEALTH)) for name in winnings),),
+			state.previousBets + (bets,),
+			state.previousOutcomes + (outcome,),
 			state.rounds + 1
 		)
 
-	def advance(self, bets, truth):
-		return self.fromPrevious(self, bets, truth)
+	def advance(self, bets, outcome):
+		return self.fromPrevious(self, bets, outcome)
 
 	@classmethod
 	def fromInitial(cls):
-		return cls([{'dummy': 100.0}], [{'total': (10.0, 10.0), 'dummy': (10.0, 10.0)}], [0.5], 0)
+		return cls(tuple(), tuple(), tuple(), 0)
 
 
 if __name__ == "__main__":

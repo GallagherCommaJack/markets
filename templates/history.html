@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>History - MSFP Markets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="//bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <style>
+    dd {
+      padding-bottom: 18px;
+    }
+    dt {
+      padding-bottom: 3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="jumbotron">
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <h2> History - MSFP Markets </h2>
+        </div>
+      </div>
+
+      {% for round in range(state.rounds) | reverse %}
+        <div class="row" style="padding-bottom: 15px;">
+          <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+            <h3> Round {{ round }}: Outcome = {{ state.previousOutcomes[round] }} </h3>
+            {% for name, (bet_true, bet_false) in state.previousBets[round].items() | orderBets %}
+              <div class="row">
+                <div class="col-md-2 col-sm-4 col-xs-4">
+                  {{ name }}
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-3">
+                  T: {{ '%.2f' % bet_true }}
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-3">
+                  F: {{ '%.2f' % bet_false }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+
+      <div class="row" style="padding-top: 5px;">
+        <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+          <a href="/">Back</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+
