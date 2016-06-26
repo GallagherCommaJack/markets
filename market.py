@@ -114,7 +114,7 @@ def cap_bidding_function(bf, wealth): # wealth here means wealth of the current 
   return bf2
 
 # Catches errors thrown by a bidding function, and defaults to betting nothing.
-def catch_bidding_function_errors(bf):
+def catch_bidding_function_errors(bf, identifier):
   def bf2(bt):
     try:
       result = bf(bt)
@@ -123,7 +123,7 @@ def catch_bidding_function_errors(bf):
       else:
         raise Exception("Bad value returned: %r" % result)
     except Exception as ex:
-      print "Exception encountered in bidding function from '%s'." % (bf.__module__ if hasattr(bf, '__module__') else bf.__name__)
+      print "Exception encountered in bidding function from '%s'." % identifier
       print repr(ex)
       print
       return 0.0, 0.0
@@ -202,11 +202,9 @@ def mk_gamblers(bfs, wealth, prec, round):
     bf = bfs[name]
     f = piecewise_linearify_bidding_function(
         cap_bidding_function(
-          catch_bidding_function_errors(lambda bets: bf(dict(bets.items()), dict(wealth.items()), round)),
+          catch_bidding_function_errors(lambda bets: bf(dict(bets.items()), dict(wealth.items()), round), bf.__module__),
           wealth[name]),
         prec)
-    f.__name__ = bf.__name__
-    f.__module__ = bf.__module__
     return f
   return dict((name, gambler_from_name(name)) for name in bfs)
 
