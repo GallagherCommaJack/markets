@@ -1,4 +1,8 @@
 
+def run(state, bfs):
+	from market import solve
+	bets, converged = solve(bfs, dict((name, state.wealth.get(name, state.DEFAULT_WEALTH)) for name in playerNames), state.rounds, 1000)
+
 def main(state, outcome):
 	import os
 
@@ -10,8 +14,7 @@ def main(state, outcome):
 
 	bfs = dict((name, bfForPlayerName(name)) for name in playerNames)
 
-	from market import solve
-	bets, converged = solve(bfs, dict((name, state.wealth.get(name, state.DEFAULT_WEALTH)) for name in playerNames), state.rounds, 1000)
+	bets, converged = run(state, bfs)
 
 	return bets, converged, state.advance(bets, outcome)
 
