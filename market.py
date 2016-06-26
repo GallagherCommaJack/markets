@@ -100,14 +100,10 @@ def piecewise_linearify_bidding_function(bf, prec):
     return (of_component(0), of_component(1))
   return bf2
 
-
-def plumb_args(bf,wealth,round = 0):
-  return lambda bt: bf(bt,wealth,round)
-
 # Caps a bidding function at some amount.
 def cap_bidding_function(bf, wealth): # wealth here means wealth of the current better, not wealth table
   def bf2(bt):
-    (onfalse, ontrue) = bf(bt)
+    onfalse, ontrue = bf(bt)
     ontrue = max(0.0, ontrue)
     onfalse = max(0.0, onfalse)
     tot = onfalse + ontrue
@@ -115,6 +111,18 @@ def cap_bidding_function(bf, wealth): # wealth here means wealth of the current 
       scale = wealth / tot
       return (onfalse * scale, ontrue * scale)
     return (onfalse, ontrue)
+  return bf2
+
+# Catches errors thrown by a bidding function, and defaults to betting nothing.
+def catch_bidding_function_errors(bf):
+  def bf2(bt):
+    try:
+      return bf(bt)
+    except Exception as ex:
+      print "Exception encountered in bidding function from '%s'." % (bf.__module__ if hasattr(bf, '__module__') else bf.__name__)
+      print ex
+      print
+      return 0.0, 0.0
   return bf2
 
 def compute_prob(totals):
@@ -151,50 +159,68 @@ def apply_bidding_functions(bfs, bt):
   return bt2
 
 # Find a betting table that is a fixed point of the bidding functions.
-def resolve_bidding_functions(bfs, n_iters):
+def resolve_bidding_functions(bfs, max_iterations):
   # todo: change weights over time? at time t it's sqrt(t)
   # James: Need to think about weight schedule.
-  bt = {}
-  for k in bfs:
-    bt[k] = (0.0, 0.0)
-  bt['dummy'] = (10.0,10.0)
+  
+  # Initial bets. Zero for everyone except the dummy player.
+  bt = dict((name, (0.0, 0.0) if name != 'dummy' else (10.0, 10.0)) for name in bfs)
   add_extra_bt_info(bt)
+
   sorted_keys = sorted(bt.keys())
   bt_current_vec = bet_table_to_vec(bt)
-  for i in range(n_iters):
-    bt_current = vec_to_bet_table(sorted_keys, bt_current_vec)
-    bt2 = apply_bidding_functions(bfs, bt_current)
-    bt_current_vec = vec_add(vec_scale(0.9, bt_current_vec), vec_scale(0.1, bet_table_to_vec(bt2)))
-    bt = bt2
-  return bt
+
+  probable_convergence_vec = bt_current_vec
+  probable_convergence_steps = 0
+  converged = False
+
+  for i in range(max_iterations):
+    weight_scale_factor = (i * 1. / max_iterations) ** 2
+    weight = 0.9 * (1. - weight_scale_factor) + 0.99 * weight_scale_factor
+
+    bt_next = apply_bidding_functions(bfs, vec_to_bet_table(sorted_keys, bt_current_vec))
+    bt_current_vec = vec_add(vec_scale(weight, bt_current_vec), vec_scale(1. - weight, bet_table_to_vec(bt_next)))
+
+    if all(abs(x - y) < 1e-2 for x, y in zip(probable_convergence_vec, bt_current_vec)):
+      probable_convergence_steps += 1
+      if probable_convergence_steps >= 5:
+        converged = True
+        break
+    else:
+      probable_convergence_vec = bt_current_vec
+      probable_convergence_steps = 0
+
+  return bt_next, converged
+
 
 def update_wealth(bt_final, wealth, v):
   p = compute_prob(bt_final['total'])
-  wealth_new = wealth
+  wealth_new = dict()
 
   for k in bt_final:
     if k != 'total':
       k_true, k_false = bt_final[k]
-      wealth_new[k] -= k_true
-      wealth_new[k] -= k_false
+      wealth_new[k] = wealth[k] - k_true - k_false
       wealth_new[k] += v * k_true / p
       wealth_new[k] += (1 - v) * k_false / p
 
   return wealth_new
 
-def mk_gamblers(bfs,wealth,prec,round=0):
-  bfs_out = bfs
-  for k in bfs_out:
-    bfs_out[k] = plumb_args(bfs_out[k],wealth)
-    bfs_out[k] = cap_bidding_function(bfs_out[k], wealth[k])
-    bfs_out[k] = piecewise_linearify_bidding_function(bfs_out[k], prec)
-  return bfs_out
+def mk_gamblers(bfs, wealth, prec, round):
+  def gambler_from_name(name):
+    bf = bfs[name]
+    return piecewise_linearify_bidding_function(
+        cap_bidding_function(
+          catch_bidding_function_errors(lambda bets: bf(bets, wealth, round)),
+          wealth[name]),
+        prec)
+  return dict((name, gambler_from_name(name)) for name in bfs)
 
-def solve(bfs, wealth, round=0, iters=10000, prec=0.001):
-  bfs = mk_gamblers(bfs,wealth,prec,round)
-  return resolve_bidding_functions(bfs, iters)
-  # results = (resolve_bidding_functions(bfs, 100), resolve_bidding_functions(bfs, 300), resolve_bidding_functions(bfs, 1000))
-  # return results, apply_bidding_functions(bfs, results[-1])
+# Returns (bets, converged), where `bets` is a map from names to (true bet, false bet)
+# and `converged` is a boolean indicating whether the fixed-point computation converged.
+def solve(bfs, wealth, round, max_iterations=10000, precision=0.001):
+  bfs = mk_gamblers(bfs, wealth, precision, round)
+  return resolve_bidding_functions(bfs, max_iterations)
 
 def test1():
   def bf1(bt, wealth, round):
@@ -211,8 +237,23 @@ def test1():
   bfs = mk_gamblers(bfs,wealth,0.01)
   print resolve_bidding_functions(bfs, 10000)
 
+def test2():
+  def bf1(bt, wealth, round):
+    p = compute_prob(bt['total'])
+    if p < 0.7:
+      return (0.0, 1.0)
+    else:
+      return (1.0, 0.0)
+  def bf2(bt, wealth, round):
+    p = compute_prob(bt['total'])
+    return (3 - p, 0.0)
+  bfs = {'first': bf1, 'second': bf2}
+  wealth = {'first': 100.0, 'second': 100.0}
+  print solve(bfs, wealth, 0)
+
+
 if __name__ == '__main__':
   test1()
-  solve({},{})
+  test2()
   print 'done!'
 
