@@ -118,8 +118,8 @@ def catch_bidding_function_errors(bf):
   def bf2(bt):
     try:
       result = bf(bt)
-      if result is not None and isinstance(result, tuple) and len(result) == 2 and all(isinstance(x, float) for x in result):
-        return result
+      if result is not None and isinstance(result, tuple) and len(result) == 2:
+        return tuple(float(x) for x in result)
       else:
         raise Exception("Bad value returned: %r" % result)
     except Exception as ex:
