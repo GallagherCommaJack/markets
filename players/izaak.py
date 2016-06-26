@@ -1,8 +1,8 @@
 def bet(bets, wealth, n):
-  if n == 0:
-    p = bets['total'][0] / float(sum(bets['total']))
-    w = wealth['izaak'] / 2.0
-    if p > 0.7:
-      return (w, 0.0)
-    else:
-      return (0.0, w)
+  w = wealth / 2.0
+  p = bets['total'][0] / float(sum(bets['total']))
+
+  if p > 0.85:
+    return (0.0, w)
+  else:
+    return (w, 0.0)
