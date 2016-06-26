@@ -14,7 +14,7 @@ def bet(bets, wealth, round):
     # We can also see how much wealth a player has by querying wealth
     my_wealth = wealth['nick']
 
-    bet_true *= 0.5 * my_wealth
-    bet_false *= 0.5 * my_wealth
+    bet_true *= 0.25 * my_wealth
+    bet_false *= 0.25 * my_wealth
 
     return bet_true, bet_false
