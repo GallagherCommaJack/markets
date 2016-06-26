@@ -117,7 +117,11 @@ def cap_bidding_function(bf, wealth): # wealth here means wealth of the current 
 def catch_bidding_function_errors(bf):
   def bf2(bt):
     try:
-      return bf(bt)
+      result = bf(bt)
+      if result is not None and isinstance(result, tuple) and len(result) == 2 and all(isinstance(x, float) for x in result):
+        return result
+      else:
+        raise Exception("Bad value returned: %r" % result)
     except Exception as ex:
       print "Exception encountered in bidding function from '%s'." % (bf.__module__ if hasattr(bf, '__module__') else bf.__name__)
       print ex
