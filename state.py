@@ -8,12 +8,7 @@ class State(object):
 		self.previousBets = tuple(dict(bet.items()) for bet in bets)
 		self.previousOutcomes = tuple(outcomes)
 		self.rounds = rounds
-		assert len(wealths) > 0
-		assert len(bets) > 0
-		assert len(outcomes) > 0
-		self.wealth = wealths[-1]
-		self.bets = bets[-1]
-		self.outcome = bets[-1]
+		self.wealth = wealths[-1] if wealths else dict()
 
 
 	def save(self, path='state.pickle'):
@@ -63,7 +58,7 @@ class State(object):
 
 	@classmethod
 	def fromInitial(cls):
-		return cls(({'dummy': 100.0},), ({'total': (10.0, 10.0), 'dummy': (10.0, 10.0)},), (0.5,), 1)
+		return cls(tuple(), tuple(), tuple(), 0)
 
 
 if __name__ == "__main__":
