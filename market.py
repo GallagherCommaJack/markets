@@ -116,6 +116,7 @@ def cap_bidding_function(bf, wealth): # wealth here means wealth of the current 
 # Catches errors thrown by a bidding function, and defaults to betting nothing.
 def catch_bidding_function_errors(bf, identifier):
   from time import time
+  errors_seen = set()
   def bf2(bt):
     try:
       start_time = time()
@@ -128,9 +129,16 @@ def catch_bidding_function_errors(bf, identifier):
       else:
         raise Exception("Bad value returned: %r" % result)
     except Exception as ex:
-      print "Exception encountered in bidding function from '%s'." % identifier
-      print repr(ex)
-      print
+      if repr(ex) not in errors_seen:
+        errors_seen.add(repr(ex))
+        print "Exception encountered in bidding function from '%s'." % identifier
+
+        import traceback
+        traceback.print_exc()
+
+        print
+        print "Carrying on, and ignoring errors like this..."
+        print
       return 0.0, 0.0
   return bf2
 
