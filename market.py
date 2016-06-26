@@ -114,7 +114,7 @@ def cap_bidding_function(bf, wealth): # wealth here means wealth of the current 
   return bf2
 
 # Catches errors thrown by a bidding function, and defaults to betting nothing.
-def catch_bidding_function_errors(bf):
+def catch_bidding_function_errors(bf, identifier):
   def bf2(bt):
     try:
       result = bf(bt)
@@ -123,8 +123,8 @@ def catch_bidding_function_errors(bf):
       else:
         raise Exception("Bad value returned: %r" % result)
     except Exception as ex:
-      print "Exception encountered in bidding function from '%s'." % (bf.__module__ if hasattr(bf, '__module__') else bf.__name__)
-      print ex
+      print "Exception encountered in bidding function from '%s'." % identifier
+      print repr(ex)
       print
       return 0.0, 0.0
   return bf2
@@ -183,6 +183,7 @@ def resolve_bidding_functions(bfs, max_iterations):
     weight = 0.8 * (1. - weight_scale_factor) + 0.99 * weight_scale_factor
 
     bt_next = apply_bidding_functions(bfs, vec_to_bet_table(sorted_keys, bt_current_vec))
+    add_extra_bt_info(bt_next)
     bt_current_vec = vec_add(vec_scale(weight, bt_current_vec), vec_scale(1. - weight, bet_table_to_vec(bt_next)))
 
     if all(abs(x - y) < 1e-2 for x, y in zip(probable_convergence_vec, bt_current_vec)):
@@ -199,11 +200,12 @@ def resolve_bidding_functions(bfs, max_iterations):
 def mk_gamblers(bfs, wealth, prec, round):
   def gambler_from_name(name):
     bf = bfs[name]
-    return piecewise_linearify_bidding_function(
+    f = piecewise_linearify_bidding_function(
         cap_bidding_function(
-          catch_bidding_function_errors(lambda bets: bf(dict(bets.items()), dict(wealth.items()), round)),
+          catch_bidding_function_errors(lambda bets: bf(dict(bets.items()), dict(wealth.items()), round), bf.__module__),
           wealth[name]),
         prec)
+    return f
   return dict((name, gambler_from_name(name)) for name in bfs)
 
 # Returns (bets, converged), where `bets` is a map from names to (true bet, false bet)

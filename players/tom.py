@@ -12,7 +12,7 @@ def bet(bets, wealth, round):
 
     n = my_wealth * 0.5 / best_wealth
 
-    return best_true/n, best_false/n
+    return best_true * n, best_false * n
 
     p = total_true/total
 

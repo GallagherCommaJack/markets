@@ -1,7 +1,5 @@
-# import numpy as np
-
-def mean(l):
-    return sum(l)/len(l)
+def meeen(l):
+    return sum(l) / float(len(l))
 
 def bet(bets, wealth, round):
 
@@ -14,17 +12,14 @@ def bet(bets, wealth, round):
         peoples_true_bets.append(bets['tom'][0])
 
     best_bettor = max(wealth, key=wealth.get)
-    best_bets = [ bets[best_bettor][0] ]
+    best_true_bets = [ bets[best_bettor][0] ]
 
-    good_bets = peoples_true_bets + best_bets
+    good_true_bets = peoples_true_bets + best_true_bets
 
-    print "`good_bets`:"
-    print good_bets
-
-    if len(good_bets) > 0:
+    if len(good_true_bets) > 0:
         true_bet = min(
                 wealth['andrew'] * .9,
-                mean(good_bets)
+                meeen(good_true_bets)
                 )
     else:
         true_bet = 0.0
