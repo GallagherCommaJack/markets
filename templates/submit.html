@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Submit - MSFP Markets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="//bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <style>
+    dd {
+      padding-bottom: 18px;
+    }
+    dt {
+      padding-bottom: 3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="jumbotron">
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <h2> Submit - MSFP Markets </h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <p> Submit source code for your bot. This will compete in the next round. </p>
+          <p> <small>Submitting again will overwrite your bot. (Please don't submit under someone else's name.) You can check if your code runs <a href="/test">here</a>.</small> </p>
+          <form method="POST" action="">
+            <div>
+              <label for="name">Name</label>
+              <input type="text" name="name">
+            </div>
+            <div>
+              <label for="code">Code</label>
+              <textarea name="code"></textarea>
+            </div>
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {% if submitted %}
+
+        <div class="row" style="padding-bottom: 15px; padding-top: 10px;">
+          <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+            <p style="color: darkgreen;"> Submitted successfully! </p>
+          </div>
+        </div>
+
+      {% endif %}
+
+      <div class="row" style="padding-top: 5px;">
+        <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+          <a href="/">Back</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+

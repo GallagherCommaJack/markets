@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>History - MSFP Markets</title>
+  <title>Test Run - MSFP Markets</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="//bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <style>
@@ -23,15 +23,36 @@
 
       <div class="row">
         <div class="col-md-8 col-md-offset-2 col-sm-12">
-          <h2> History - MSFP Markets </h2>
+          <h2> Test Run - MSFP Markets </h2>
         </div>
       </div>
 
-      {% for round in range(state.rounds) | reverse %}
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <p> Submit source code, and we'll pit you against the bots from last round. </p>
+          <p> <small> Use this to check your code for errors. </small> </p>
+          <form method="POST" action="">
+            <div>
+              <label for="name">Name</label>
+              <input type="text" name="name">
+            </div>
+            <div>
+              <label for="code">Code</label>
+              <textarea name="code"></textarea>
+            </div>
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {% if run %}
+
         <div class="row" style="padding-bottom: 15px;">
           <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-            <h3> Round {{ round }}: Outcome = {{ state.previousOutcomes[round] }} </h3>
-            {% for name, (bet_true, bet_false) in state.previousBets[round].items() | orderBets %}
+            <h3> Bets <br> <small> Converged = {{ 'Yes' if converged else 'NO' }} </small></h3>
+            {% for name, (bet_true, bet_false) in  bets.items() | orderBets %}
               <div class="row">
                 <div class="col-md-2 col-sm-4 col-xs-4">
                   {{ name }}
@@ -46,7 +67,8 @@
             {% endfor %}
           </div>
         </div>
-      {% endfor %}
+
+      {% endif %}
 
       <div class="row" style="padding-top: 5px;">
         <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
