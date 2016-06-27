@@ -43,13 +43,13 @@ if __name__ == "__main__":
 	print
 	print
 	print 'Market probability:', bets['total'][0] / sum(bets['total'])
+	print
+	print 'Converged:', 'YES' if converged else 'NO'
 
 	if outcome_exists:
 
 		print '--- Wealth -------------'
 		print formatWealth(newState.wealth)
 		print
-		print
-		print 'Converged:', 'YES' if converged else 'NO'
 
 		newState.save()
