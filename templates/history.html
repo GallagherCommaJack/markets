@@ -30,7 +30,9 @@
       {% for round in range(state.rounds) | reverse %}
         <div class="row" style="padding-bottom: 15px;">
           <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-            <h3> Round {{ round }}: Outcome = {{ state.previousOutcomes[round] }} </h3>
+            <h3> Round {{ round }} <br>
+                  <small> Market Prob. = {{ state.previousBets[round]['total'][0] / (state.previousBets[round]['total'][0] + state.previousBets[round]['total'][1]) }} </small> <br>
+                  <small> Outcome = {{ state.previousOutcomes[round] }} </small> </h3>
             {% for name, (bet_true, bet_false) in state.previousBets[round].items() | orderBets %}
               <div class="row">
                 <div class="col-md-2 col-sm-4 col-xs-4">
