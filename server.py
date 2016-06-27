@@ -43,18 +43,19 @@ def test():
 					raise ex
 			return bf2
 
+		from random import randint
+		filename = 'temp_test_%d.py' % randint(0,1000000)
+		with open(filename, 'w') as f:
+			f.write(code)
+			f.close()
+
 		try:
-			from random import randint
-			filename = 'temp_test_%d.py' % randint(0,1000000)
-			with open(filename, 'w') as f:
-				f.write(code)
-				f.close()
 			bfs[name] = __import__(filename[:-3]).bet
 
 			from state import State
 			state = State.load()
 
-			bets, converged = run(state, bfs, max_iterations = 50)
+			bets, converged = run(state, bfs, max_iterations = 100)
 
 			if error:
 				raise error
@@ -64,6 +65,10 @@ def test():
 		except int as ex:
 			print repr(ex)
 			return render_template('test.html', error=repr(ex))
+
+		finally:
+			import os
+			os.remove(filename)
 
 @app.route("/submit", methods=['GET', 'POST'])
 def submit():
