@@ -37,10 +37,10 @@
                   {{ name }}
                 </div>
                 <div class="col-md-2 col-sm-3 col-xs-3">
-                  T: {{ '%.2f' % bet_true }}
+                  <span style="color: darkgreen;">T: {{ '%.2f' % bet_true }}</span>
                 </div>
                 <div class="col-md-2 col-sm-3 col-xs-3">
-                  F: {{ '%.2f' % bet_false }}
+                  <span style="color: darkred;">F: {{ '%.2f' % bet_false }}</span>
                 </div>
               </div>
             {% endfor %}

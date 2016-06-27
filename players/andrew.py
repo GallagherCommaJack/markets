@@ -3,23 +3,27 @@ def meeen(l):
 
 def bet(bets, wealth, round):
 
-    peoples_true_bets = []
+    peoples_true_bet_proportions = []
     if 'izaak' in bets:
-        peoples_true_bets.append(bets['izaak'][0])
+        peoples_true_bet_proportions.append(
+                bets['izaak'][0] / wealth['izaak'])
     if 'jack' in bets:
-        peoples_true_bets.append(bets['jack'][0])
+        peoples_true_bet_proportions.append(
+                bets['jack'][0] / wealth['jack'])
     if 'tom' in bets:
-        peoples_true_bets.append(bets['tom'][0])
+        peoples_true_bet_proportions.append(
+                bets['tom'][0] / wealth['tom'])
 
     best_bettor = max(wealth, key=wealth.get)
-    best_true_bets = [ bets[best_bettor][0] ]
+    best_true_bet_proportions = [ bets[best_bettor][0] / wealth[best_bettor] ]
 
-    good_true_bets = peoples_true_bets + best_true_bets
+    good_true_bet_proportions = (peoples_true_bet_proportions +
+            best_true_bet_proportions)
 
-    if len(good_true_bets) > 0:
+    if len(good_true_bet_proportions) > 0:
         true_bet = min(
                 wealth['andrew'] * .9,
-                meeen(good_true_bets)
+                wealth['andrew'] * meeen(good_true_bet_proportions)
                 )
     else:
         true_bet = 0.0
