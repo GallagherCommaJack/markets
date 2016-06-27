@@ -21,4 +21,4 @@ def bet(bets,wealth,round):
     tratio = weighted_true/weighted_total
     fratio = weighted_false/weighted_total
 
-    return my_wealth * tratio, my_wealth * fratio
+    return 0.8 * my_wealth * tratio, 0.8 * my_wealth * fratio
