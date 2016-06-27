@@ -48,6 +48,8 @@ if __name__ == "__main__":
 
 	if outcome_exists:
 
+		print
+		print
 		print '--- Wealth -------------'
 		print formatWealth(newState.wealth)
 		print
