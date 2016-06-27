@@ -9,7 +9,6 @@ def bet(bets,wealth,round):
     del bets['dummy']
     del wealth['dummy']
     del bets['total']
-    del wealth['total']
     del bets['abram']
     del wealth['abram']
 
