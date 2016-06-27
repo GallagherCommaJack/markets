@@ -64,9 +64,9 @@
 
               <div class="row" style="padding-bottom: 15px;">
                 <div class="col-md-7 col-md-offset-2 col-sm-11 col-xs-11">
-                  <h3> Round {{ state.rounds - 1 }} <br>
+                  <h4> Round {{ state.rounds - 1 }} <br>
                   <small> Market Prob. = {{ state.previousBets[-1]['total'][0] / (state.previousBets[-1]['total'][0] + state.previousBets[-1]['total'][1]) }} </small> <br>
-                  <small> Outcome = {{ state.previousOutcomes[-1] }} </small> </h3>
+                  <small> Outcome = {{ state.previousOutcomes[-1] }} </small> </h4>
                   {% for name, (bet_true, bet_false) in state.previousBets[-1].items() | orderBets %}
                     <div class="row">
                       <div class="col-md-2 col-sm-4 col-xs-4">
