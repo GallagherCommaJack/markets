@@ -2,7 +2,7 @@ def bet(bets,wealth,round):
     dummy_true, dummy_false = bets['dummy']
     dummy_wealth = wealth['dummy']
     total_true, total_false = bets['total']
-    total_wealth = wealth['total']
+    total_wealth = sum(wealth.values())
     my_true, my_false = bets['abram']
     my_wealth = wealth['abram']
 

@@ -1,5 +1,5 @@
 def bet(bets, wealth, n):
-  w = wealth / 2.0
+  w = wealth['izaak'] / 2.0
   p = bets['total'][0] / float(sum(bets['total']))
 
   if p > 0.85:

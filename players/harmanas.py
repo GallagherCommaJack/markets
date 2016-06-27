@@ -1,7 +1,7 @@
 def bet(bets, wealth, round):
   total_true, total_false = bets['total']
   players = len(wealth)
-  ps[0] = float(total_true / (total_true + total_false))
+  ps = [float(total_true / (total_true + total_false))]
   total = float((total_true + total_false)) / players
 
   # We can also see how much wealth a player has by querying wealth
@@ -11,7 +11,7 @@ def bet(bets, wealth, round):
   # This is wrong, it 's supposed to take an average.
   for i, w in enumerate(w_sorted[0: 3]):
       t, f = bets[w[0]]
-  ps[i + 1] = t / (t + f)
+      ps.append(t / (t + f))
 
   p = mean(ps)
 

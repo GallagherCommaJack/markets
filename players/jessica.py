@@ -1,6 +1,7 @@
 
 
 def bet(bets, wealth, round):
+  return 0.0, 0.0
   total_true, total_false = bets['total']
   p_true = total_true / (total_true + total_false)
   proportion = 0.3

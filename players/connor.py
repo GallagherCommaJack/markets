@@ -21,4 +21,4 @@ def bet(bets,wealth,round):
         my_true = 0
         my_false = min(false_cap, false_cap * (p_house - p_mine)/.15)
 
-    return tuple(my_true, my_false)
+    return (my_true, my_false)
