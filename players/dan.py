@@ -8,11 +8,16 @@ def bet(bets,wealth,round):
     dummy_wealth = wealth['dummy']
     dan_wealth = wealth['dan']
 
-    # If we don't want to accidentally bet on another round without updating our code, we can do something like this:
-    if market_prob > .7:
-        return 0.2 * dan_wealth, 0
-    if market_prob > .75:
-        return 0.5 * dan_wealth, 0
-    if market_prob < .65:
-        return 0, 0.5 * dan_wealth
-    else: return 0, 0.2 * dan_wealth
+    if market_prob > .84:
+        return 0.0, 0.3 * dan_wealth
+    if market_prob > .835:
+        return 0.0, 0.2 * dan_wealth
+    if market_prob > .831:
+        return 0.0, 0.1 * dan_wealth
+    if market_prob < .82:
+        return 0.3 * dan_wealth, 0.0
+    if market_prob < .825:
+        return 0.2 * dan_wealth, 0.0
+    if market_prob < .829:
+        return 0.1 * dan_wealth, 0.0
+    else: return 0.0, 0.0
