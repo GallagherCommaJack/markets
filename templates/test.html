@@ -34,11 +34,15 @@
           <form method="POST" action="">
             <div>
               <label for="name">Name</label>
-              <input type="text" name="name">
+              {% if name %}
+                <input type="text" name="name" value="{{ name }}">
+              {% else %}
+                <input type="text" name="name">
+              {% endif %}
             </div>
             <div>
               <label for="code">Code</label>
-              <textarea name="code"></textarea>
+              <textarea style="width: 500px; height: 400px;" name="code">{% if code %}{{code}}{% endif %}</textarea>
             </div>
             <div>
               <button type="submit">Submit</button>
@@ -46,6 +50,14 @@
           </form>
         </div>
       </div>
+
+      {% if error %}
+        <div class="row" style="padding-bottom: 15px;">
+          <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+            <h3> Your code had an error. <br> <small> <span style="color: darkred;">{{ error }}</span></small></h3>
+          </div>
+        </div>
+      {% endif %}
 
       {% if run %}
 

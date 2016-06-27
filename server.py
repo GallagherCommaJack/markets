@@ -33,13 +33,16 @@ def test():
 		from main import run, loadBettingFunctions
 		bfs = loadBettingFunctions()
 
-		error = None
+		errors = []
 		def catchErrors(bf):
 			def bf2(*args):
 				try:
-					return bf(*args)
+					result = bf(*args)
+					if result is None or not isinstance(result, tuple) or len(result) != 2:
+						raise Exception("Bad value returned: %r" % result)
+					return result
 				except Exception as ex:
-					error = ex
+					errors.append(ex)
 					raise ex
 			return bf2
 
@@ -50,21 +53,21 @@ def test():
 			f.close()
 
 		try:
-			bfs[name] = __import__(filename[:-3]).bet
+			bfs[name] = catchErrors(__import__(filename[:-3]).bet)
 
 			from state import State
 			state = State.load()
 
 			bets, converged = run(state, bfs, max_iterations = 100)
 
-			if error:
-				raise error
+			if errors:
+				raise errors[0]
 
-			return render_template('test.html', run=True, bets=bets, converged=converged)
+			return render_template('test.html', name=name, code=code, run=True, bets=bets, converged=converged)
 
-		except int as ex:
+		except Exception as ex:
 			print repr(ex)
-			return render_template('test.html', error=repr(ex))
+			return render_template('test.html', name=name, code=code, error=repr(ex))
 
 		finally:
 			import os
