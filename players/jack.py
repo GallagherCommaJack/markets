@@ -1,4 +1,4 @@
-kelly = lambda b, p: (p * (b + 1.0) - 1.0) / b
+kelly = lambda w, r: w - ((1 - w) / r)
 
 def bet(bets,wealth,round):
     total_true, total_false = bets['total']
