@@ -35,8 +35,8 @@ if __name__ == "__main__":
 
 	bets, converged, newState = main(state, outcome)
 
-	formatBT = lambda bt: '\n'.join('%s: %0.1f, %0.1f' % thing for thing in sorted((k, t, f) for k, (t, f) in bt.items()))
-	formatWealth = lambda wealth: '\n'.join('%s: %0.1f' % thing for thing in sorted(wealth.items()))
+	formatBT = lambda bt: '\n'.join('%s: %0.3f, %0.3f' % thing for thing in sorted((k, t, f) for k, (t, f) in bt.items()))
+	formatWealth = lambda wealth: '\n'.join('%s: %0.3f' % thing for thing in sorted(wealth.items()))
 
 	print '--- Bets ---------------'
 	print formatBT(bets)
