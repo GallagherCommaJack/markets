@@ -8,7 +8,7 @@ def bet(bets,wealth,round):
     num_pos = 0
     num_neg = 0
     for name, bet in bets.items():
-        if name not in ["total","dummy"] and not (bet[0] == 0.0) and not (bet[0] == 0.0):
+        if name not in ["total","dummy"] and not (bet[0] == 0.0 and bet[1] == 0.0):
             pos = bet[0] / p
             neg = bet[1] / p
             if pos > neg:
