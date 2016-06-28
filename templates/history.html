@@ -35,13 +35,13 @@
                   <small> Outcome = {{ state.previousOutcomes[round] }} </small> </h3>
             {% for name, (bet_true, bet_false) in state.previousBets[round].items() | orderBets %}
               <div class="row">
-                <div class="col-md-2 col-sm-4 col-xs-4">
+                <div class="col-md-3 col-sm-4 col-xs-4">
                   {{ name }}
                 </div>
-                <div class="col-md-2 col-sm-3 col-xs-3">
+                <div class="col-md-3 col-sm-3 col-xs-3">
                   <span style="color: darkgreen;">T: {{ '%.2f' % bet_true }}</span>
                 </div>
-                <div class="col-md-2 col-sm-3 col-xs-3">
+                <div class="col-md-3 col-sm-3 col-xs-3">
                   <span style="color: darkred;">F: {{ '%.2f' % bet_false }}</span>
                 </div>
               </div>
