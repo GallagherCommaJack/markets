@@ -215,11 +215,12 @@ def resolve_bidding_functions(bfs, max_iterations):
   return bt_next, converged
 
 def mk_gamblers(bfs, wealth, prec, round):
+  from collections import defaultdict
   def gambler_from_name(name):
     bf = bfs[name]
     f = piecewise_linearify_bidding_function(
         cap_bidding_function(
-          catch_bidding_function_errors(lambda bets: bf(dict(bets.items()), dict(wealth.items()), round), bf.__module__),
+          catch_bidding_function_errors(lambda bets: bf(defaultdict(lambda: (0.0, 0.0), bets.items()), dict(wealth.items()), round), bf.__module__),
           wealth[name]),
         prec)
     return f
