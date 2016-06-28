@@ -47,7 +47,7 @@ class State(object):
 	def fromPrevious(cls, state, bets, outcome):
 		winnings = cls.resolveMarket(bets, outcome)
 		return cls(
-			state.previousWealth + (dict((name, winnings.get(name, 0.0) + state.wealth.get(name, cls.DEFAULT_WEALTH)) for name in set(winnings.keys()) | set(state.wealth.keys()),),
+			state.previousWealth + (dict((name, winnings.get(name, 0.0) + state.wealth.get(name, cls.DEFAULT_WEALTH)) for name in set(winnings.keys()) | set(state.wealth.keys())),),
 			state.previousBets + (bets,),
 			state.previousOutcomes + (outcome,),
 			state.rounds + 1
