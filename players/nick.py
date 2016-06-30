@@ -7,8 +7,11 @@ def bet(bets, wealth, round):
         base_true += bets[person][0]
         base_false += bets[person][1]
 
+    if base_true + base_false == 0.0:
+        return 0.0, 0.0
+
     base_true /= base_true + base_false
-    base_false /= base_true + base_false
+    base_false = 1. - base_true
 
     bet_true = base_true
     bet_false = base_false
