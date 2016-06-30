@@ -15,25 +15,25 @@ def bet(bets,wealth,round):
     house = total_true / (total_true + total_false)
     not_house = total_false / (total_true + total_false)
 
-    near = 0.0
-    far = 0.0
-    g = 0.0
-    bettors = 0.0
-    for bettor in bets:
-        nearish, farish = bets[bettor]
-        bettors = bettors+1.0
-        if nearish > 1.0:
-            near=near+1.0
-        if farish > 1.0:
-            far=far+1.0
-        if nearish/house > farish/not_house:
-            g=g+1.0
+    #near = 0.0
+    #far = 0.0
+    #g = 0.0
+    #bettors = 0.0
+    #for bettor in bets:
+    #    nearish, farish = bets[bettor]
+    #    bettors = bettors+1.0
+    #    if nearish > 1.0:
+    #        near=near+1.0
+    #    if farish > 1.0:
+    #        far=far+1.0
+    #    if nearish/house > farish/not_house:
+    #         g=g+1.0
 
-    ratio = min((bettors - near - far)/bettors,0.0)
+    #ratio = min((bettors - near - far)/bettors,0.0)
 
-    p = 0.75*0.2 + 0.25*ratio
-    if g==0.0:
-        p=0.04
+    p = 0.3
+    #if g==0.0:
+    #    p=0.04
     cap_percent = 1.0 - min(0.8, max(0.0,p-house,house-p))
     q = 1-p
     b_true = (1/house) - 1
@@ -41,6 +41,13 @@ def bet(bets,wealth,round):
     pos_bet = (p - q/b_true)*my_wealth
     pos_bet = min(1.0*my_wealth,pos_bet)*cap_percent
     neg_bet = (q - p/b_false)*my_wealth
-    neg_bet = min(cap_percent*my_wealth,neg_bet)
+    neg_bet = min(1.0*my_wealth,neg_bet)*cap_percent
 
+    e_pos, e_neg = bets['evan']
+    s_pos, s_neg = bets['scott']
+    d_pos, d_neg = bets['dan']
+    j_pos, j_neg = bets['jack']
+
+    pos_bet = (e_pos + s_pos + d_pos + 4*j_pos + pos_bet) * 0.125
+    neg_bet = (e_neg + s_neg + d_neg + 4*j_neg + neg_bet) * 0.125
     return pos_bet, neg_bet

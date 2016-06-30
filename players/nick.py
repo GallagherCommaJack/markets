@@ -1,5 +1,6 @@
+
 def bet(bets, wealth, round):
-    trusted = ["abram", "corey", "jack", "william"]
+    trusted = ["abram", "corey", "scott", "evan"]
     base_true = 0.0
     base_false = 0.0
     for person in trusted:
@@ -18,7 +19,7 @@ def bet(bets, wealth, round):
         bet_false = 0.0
 
     my_wealth = wealth['nick']
-    bet_true *= 0.25 * my_wealth
-    bet_false *= 0.25 * my_wealth
+    bet_true *= 0.40 * my_wealth
+    bet_false *= 0.40 * my_wealth
 
     return bet_true, bet_false
