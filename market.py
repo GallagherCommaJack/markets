@@ -122,7 +122,7 @@ def catch_bidding_function_errors(bf, identifier):
       start_time = time()
       result = bf(bt)
       total_time = time() - start_time
-      if total_time > 1e-3:
+      if total_time > 1e-2:
         print 'Warning: %s ran for %.3f seconds.' % (identifier, total_time)
       if result is not None and isinstance(result, tuple) and len(result) == 2:
         return tuple(float(x) for x in result)
