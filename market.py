@@ -197,7 +197,7 @@ def resolve_bidding_functions(bfs, max_iterations):
       print "Resolve bidding functions still hasn't converged. Iteration %d / %d" % (i, max_iterations)
 
     weight_scale_factor = (i * 1. / max_iterations) ** 2
-    weight = 0.8 * (1. - weight_scale_factor) + 0.99 * weight_scale_factor
+    weight = 0.8 * (1. - weight_scale_factor) + 0.999 * weight_scale_factor
 
     bt_next = apply_bidding_functions(bfs, vec_to_bet_table(sorted_keys, bt_current_vec))
     add_extra_bt_info(bt_next)

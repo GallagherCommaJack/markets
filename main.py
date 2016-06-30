@@ -10,7 +10,7 @@ def loadBettingFunctions():
 
 	return dict((name, bfForPlayerName(name)) for name in playerNames)
 
-def run(state, bfs, max_iterations = 10000):
+def run(state, bfs, max_iterations = 30000):
 	from market import solve
 	return solve(bfs, dict((name, state.wealth.get(name, state.DEFAULT_WEALTH)) for name in bfs), state.rounds, max_iterations)
 
