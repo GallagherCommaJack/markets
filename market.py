@@ -193,7 +193,7 @@ def resolve_bidding_functions(bfs, max_iterations):
 
   for i in xrange(max_iterations):
     weight_scale_factor = i * 1. / max_iterations
-    weight = math.exp(math.log(0.8) * (1. - weight_scale_factor) + math.log(0.9999) * weight_scale_factor)
+    weight = math.exp(math.log(0.8) * (1. - weight_scale_factor) + math.log(0.993) * weight_scale_factor)
 
     if i > 10 and i % 100 == 0:
       print "Resolve bidding functions still hasn't converged. Iteration %d / %d. Weight = %.3f" % (i, max_iterations, weight)
@@ -204,7 +204,7 @@ def resolve_bidding_functions(bfs, max_iterations):
 
     if all(abs(x - y) < 1e-2 for x, y in zip(probable_convergence_vec, bt_current_vec)):
       probable_convergence_steps += 1
-      if probable_convergence_steps >= 5:
+      if probable_convergence_steps >= 10:
         converged = True
         break
     else:
